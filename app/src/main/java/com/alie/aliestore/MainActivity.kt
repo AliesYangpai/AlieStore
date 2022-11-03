@@ -2,9 +2,10 @@ package com.alie.aliestore
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.alie.appstore.R
-import com.alie.appstore.databinding.ActivityMainBinding
+import com.alie.aliestore.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private val binding by lazy {
