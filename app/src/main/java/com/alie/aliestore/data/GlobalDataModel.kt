@@ -23,10 +23,10 @@ open class ApiData<T>(
     open val data: T? = null
 )
 
-data class NetRspData<T>(
-    override val code: Int = 0,
-    override val msg: String = "",
-    override val data: T? = null
+open class NetRspData<T>(
+    code: Int = 0,
+    msg: String = "",
+    data: T? = null
 ) :
     ApiData<T>(code, msg, data)
 

@@ -44,10 +44,14 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     implementation 'androidx.core:core-ktx:1.7.0'// ktx common
-    implementation "com.google.dagger:hilt-android:2.44"    // hilt
+    implementation "com.google.dagger:hilt-android:2.44"
+
     kapt "com.google.dagger:hilt-compiler:2.44"    // hilt
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1"    // lifecycle
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"     //viewModel
     implementation "androidx.activity:activity-ktx:1.5.1"     //viewModel
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'    //coroutine
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation "com.squareup.okhttp3:logging-interceptor:4.10.0"
 }

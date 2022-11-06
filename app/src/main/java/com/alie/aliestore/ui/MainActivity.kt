@@ -25,6 +25,10 @@ class MainActivity : AppCompatActivity() {
             binding = it
             binding?.root
         })
+
+        binding?.btn1?.setOnClickListener {
+            mainViewModel.fetchAppDetail(this.lifecycleScope)
+        }
 //        startActivity(Intent(this,TestActivity::class.java))
 
         lifecycleScope.launch {

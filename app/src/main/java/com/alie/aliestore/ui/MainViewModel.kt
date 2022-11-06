@@ -10,9 +10,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel(private val appInfoRepository: AppInfoRepository) : ViewModel() {
+class MainViewModel @Inject constructor(private val appInfoRepository: AppInfoRepository) : ViewModel() {
 
 
     private val _tipUiState = MutableStateFlow(TipUiState())
@@ -31,7 +32,7 @@ class MainViewModel(private val appInfoRepository: AppInfoRepository) : ViewMode
                         null-> TipUiState(isSuccess = false, msg = it.msg)
                         else-> when(val targetData = it.apiData.data) {
                             null-> TipUiState(isSuccess = false, msg = it.msg)
-                            else-> TipUiState(isSuccess = true, data = AppInfo(name = targetData.name, detail = targetData.detail))
+                            else-> TipUiState(isSuccess = true, data = AppInfo(name = targetData.name, describe = targetData.describe, avatar = targetData.avatar))
                         }
                     }
                     else -> TipUiState(isSuccess = false, msg = it.msg)
