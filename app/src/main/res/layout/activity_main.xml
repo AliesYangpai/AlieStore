@@ -34,5 +34,13 @@
         android:text=""
         />
 
+    <Button
+        android:id="@+id/btn_download"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text= "下载"
+        app:layout_constraintStart_toStartOf="@id/tv1"
+        app:layout_constraintTop_toBottomOf="@id/tv1"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

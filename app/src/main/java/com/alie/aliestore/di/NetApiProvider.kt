@@ -21,11 +21,15 @@ object NetApiProvider {
         .baseUrl(ConstNet.BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .client(OkHttpClient.Builder()
-            .addInterceptor(HttpLoggingInterceptor {
-                Log.d("HttpLoggingInterceptor",it)
-            }.apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            })
+
+            /**
+             * 注意此处的网络拦截器会导致下载时候，打印数据不全，这个坑点要避免
+             */
+//            .addInterceptor(HttpLoggingInterceptor {
+//                Log.d("HttpLoggingInterceptor",it)
+//            }.apply {
+//                level = HttpLoggingInterceptor.Level.BODY
+//            })
             .build())
         .build()
 

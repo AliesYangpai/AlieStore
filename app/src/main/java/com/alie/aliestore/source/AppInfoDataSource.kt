@@ -2,6 +2,7 @@ package com.alie.aliestore.source
 
 import com.alie.aliestore.api.AppInfoNetApi
 import com.alie.aliestore.data.*
+import okhttp3.ResponseBody
 import javax.inject.Inject
 
 class AppInfoDataSource @Inject constructor(private val appInfoNetApi: AppInfoNetApi) : AppInfoDataSourceWork {
@@ -18,4 +19,6 @@ class AppInfoDataSource @Inject constructor(private val appInfoNetApi: AppInfoNe
 
     override suspend fun fetchAppInfoDetail(): NetRspData<RspAppInfo>? =
         appInfoNetApi.fetchAppInfoDetail()
+
+    override suspend fun downloadApk(url: String?): ResponseBody = appInfoNetApi.downloadApk(url)
 }

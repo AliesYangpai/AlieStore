@@ -19,6 +19,8 @@ class MainActivity : AppCompatActivity() {
     private var binding:ActivityMainBinding? = null
     private val mainViewModel by viewModels<MainViewModel>()
 
+    private val downloadUrl = "https://imtt.dd.qq.com/16891/apk/86C93A138C0B939A7D594D07B9D6AD1B.apk?fsname=com.moji.mjweather_7.0911.02_7091102.apk"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(ActivityMainBinding.inflate(layoutInflater).let {
@@ -40,6 +42,10 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
+        }
+
+        binding?.btnDownload?.setOnClickListener {
+            mainViewModel.downloadApk(downloadUrl)
         }
     }
 
