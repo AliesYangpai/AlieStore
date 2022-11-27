@@ -47,6 +47,9 @@ class MainActivity : AppCompatActivity() {
         binding?.btnDownload?.setOnClickListener {
             mainViewModel.downloadApk(downloadUrl)
         }
+        binding?.btnDownload2?.setOnClickListener {
+            mainViewModel.downloadApkInRange(downloadUrl)
+        }
     }
 
 }

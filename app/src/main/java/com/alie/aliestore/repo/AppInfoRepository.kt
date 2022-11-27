@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.flowOn
 import java.io.BufferedInputStream
 import java.io.File
 import java.io.FileOutputStream
+import java.io.RandomAccessFile
 import java.lang.reflect.Field
 import java.nio.Buffer
 import javax.inject.Inject
@@ -62,7 +63,7 @@ class AppInfoRepository @Inject constructor(
             fileApk.delete()
         }
 
-        val bufferRead = ByteArray(1024 * 4  )
+        val bufferRead = ByteArray(1024 * 4)
         val totalLength = response.contentLength()
         var currentLength = 0
         response.byteStream().use { inputStream ->
@@ -71,14 +72,19 @@ class AppInfoRepository @Inject constructor(
                 while (inputStream.read(bufferRead).also {
                         readPerLength = it
                     } != -1) {
-                    fos.write(bufferRead,0,readPerLength)
-                    currentLength+=readPerLength
-                    emit(SourceData(ret = true, apiData = DownloadInfo(currentLength.toLong(),totalLength)))
+                    fos.write(bufferRead, 0, readPerLength)
+                    currentLength += readPerLength
+                    emit(
+                        SourceData(
+                            ret = true,
+                            apiData = DownloadInfo(currentLength.toLong(), totalLength)
+                        )
+                    )
                 }
                 fos.flush()
             }
         }
-        emit(SourceData(ret = true, apiData = DownloadInfo(currentLength.toLong(),9999)))
+        emit(SourceData(ret = true, apiData = DownloadInfo(currentLength.toLong(), 9999)))
     }.catch {
         emit(SourceData(ret = false, it.message ?: "unknown error"))
     }.flowOn(Dispatchers.IO)
@@ -87,8 +93,40 @@ class AppInfoRepository @Inject constructor(
         Environment.getExternalStorageDirectory().absolutePath + File.separator + "downloadApks"
 
 
-    private fun checkToCreateDir(path: String) {
-        val fileDir = File(path)
-        if (!fileDir.exists()) fileDir.mkdir()
-    }
+    suspend fun downloadApkInRange(url: String) = flow {
+        val fileDir = File(getApkRootDir())
+        if (!fileDir.exists()) {
+            fileDir.mkdirs()
+        }
+        val fileApk = File(fileDir.canonicalPath, "MjWeather.apk")
+        if (fileApk.exists() && fileApk.length() == 22534586L) {
+            emit(SourceData(ret = false,"上限了"))
+            Log.d("","download has shangxianle")
+            return@flow
+        }
+        val startPos = fileApk.length()
+        val rangeTip = "bytes=$startPos-"
+        val response = appInfoDataSourceWork.downloadApk(url, rangeTip)
+        val restLength = response.contentLength()
+        val byteArrayTemp = ByteArray(1024 * 4)
+        var currentDownloadLength = startPos
+//        Log.d("","download has downloadedSize:$currentDownloadLength toDownload:$restLength")
+
+        response.byteStream().use {inputStream->
+            RandomAccessFile(fileApk,"rwd").use {
+                it.seek(startPos) // 定位到需要处理的地方
+                var readLength = -1
+                while (inputStream.read(byteArrayTemp).also { temp ->
+                        readLength = temp
+                    }!= -1) {
+                    it.write(byteArrayTemp,0,readLength)
+                    currentDownloadLength+=readLength
+                    Log.d("","download has downloadedSize:$currentDownloadLength toDownload:$restLength")
+                }
+                emit(SourceData(ret = true, apiData = DownloadInfo(currentDownloadLength,restLength)))
+            }
+        }
+    }.catch {
+        emit(SourceData(ret = false, it.message ?: "unknown error"))
+    }.flowOn(Dispatchers.IO)
 }

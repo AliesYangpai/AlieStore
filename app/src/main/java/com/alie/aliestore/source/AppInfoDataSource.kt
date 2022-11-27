@@ -21,4 +21,8 @@ class AppInfoDataSource @Inject constructor(private val appInfoNetApi: AppInfoNe
         appInfoNetApi.fetchAppInfoDetail()
 
     override suspend fun downloadApk(url: String?): ResponseBody = appInfoNetApi.downloadApk(url)
+
+
+    override suspend fun downloadApk(url: String?, range: String): ResponseBody =
+        appInfoNetApi.downloadApk(url,range)
 }

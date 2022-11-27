@@ -56,10 +56,8 @@ class MainViewModel @Inject constructor(private val appInfoRepository: AppInfoRe
 
 
     fun downloadApk(url: String, coroutineScope: CoroutineScope = viewModelScope) {
-
         coroutineScope.launch {
             appInfoRepository.downloadApk(url).collect {
-
                 when (it.ret) {
                     true -> Log.d(
                         "MainViewModel",
@@ -69,6 +67,22 @@ class MainViewModel @Inject constructor(private val appInfoRepository: AppInfoRe
                         "MainViewModel",
                         "downloadApk error:${it.msg}")
                 }
+            }
+        }
+    }
+
+    fun downloadApkInRange(url: String, coroutineScope: CoroutineScope = viewModelScope) {
+        coroutineScope.launch {
+            appInfoRepository.downloadApkInRange(url).collect {
+//                when (it.ret) {
+//                    true -> Log.d(
+//                        "MainViewModel",
+//                        "downloadApk currentSize:${it.apiData?.currentSize} totalSize:${it.apiData?.totalSize}"
+//                    )
+//                    else -> Log.d(
+//                        "MainViewModel",
+//                        "downloadApk error:${it.msg}")
+//                }
             }
         }
     }

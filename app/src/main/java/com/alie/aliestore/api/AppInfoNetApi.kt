@@ -5,6 +5,7 @@ import com.alie.aliestore.data.NetRspData
 import com.alie.aliestore.data.RspAppInfo
 import okhttp3.ResponseBody
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.Streaming
 import retrofit2.http.Url
 
@@ -18,4 +19,8 @@ interface AppInfoNetApi {
     @Streaming
     @GET
     suspend fun downloadApk(@Url url:String?):ResponseBody
+
+    @Streaming
+    @GET
+    suspend fun downloadApk(@Url url: String?,@Header("Range") range:String):ResponseBody
 }
