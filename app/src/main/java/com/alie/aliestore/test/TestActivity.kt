@@ -27,9 +27,11 @@ class TestActivity : AppCompatActivity() {
         binding?.btn1?.setOnClickListener {
             testViewModel.syncData()
         }
+        binding?.btn2?.setOnClickListener {
+            android.util.Log.d("TestActivity", "btn2 clicked")
+        }
         binding?.btn3?.setOnClickListener {
             android.util.Log.d("TestActivity", "btn3 clicked")
-        }
     }
 
 
