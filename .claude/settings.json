@@ -1,0 +1,32 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "if": "Bash(git commit *)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/pre-commit-sensitive-check.sh",
+            "timeout": 30,
+            "statusMessage": "🔍 正在检查敏感信息..."
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "if": "Bash(git push *)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/post-push-create-pr.sh",
+            "timeout": 60,
+            "statusMessage": "📋 正在创建 Pull Request..."
+          }
+        ]
+      }
+    ]
+  }
+}
